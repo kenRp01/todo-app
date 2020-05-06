@@ -36,10 +36,6 @@ export class TodoComponent implements OnInit {
     this.todo.deleteTodo(id);
   }
 
-  editTodo(id: string, name: string) {
-    this.todo.editTodo(id, name);
-  }
-
   filterTodo(filterList: string, todos: Todo[]): Todo[] {
     if (!todos) {
       return [];
@@ -55,5 +51,13 @@ export class TodoComponent implements OnInit {
       todo.list = list;
       this.todo.putTodo(todo);
     }
+  }
+
+  editTodo(id: string) {
+    this.todo.editTodo(id);
+  }
+
+  editSaveTodo(id: string, name: string) {
+    this.todo.editSaveTodo(id, name);
   }
 }

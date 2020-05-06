@@ -3,4 +3,5 @@ export interface Todo {
   name: string;
   list: "todo" | "doing" | "done";
   id: string;
+  isEdit: boolean;
 }

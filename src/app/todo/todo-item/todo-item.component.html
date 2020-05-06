@@ -1,11 +1,56 @@
 <ng-container *ngIf="todo">
-  <div>
-    {{ todo.name }}
-    <button (click)="remove(todo.id)" mat-icon-button>
-      <mat-icon>clear</mat-icon>
-    </button>
-    <button (click)="edit(todo.id)" mat-icon-button>
-      <mat-icon>edit</mat-icon>
-    </button>
-  </div>
+  <!-- 編集モードの場合 -->
+  <ng-container *ngIf="todo.isEdit; else showTodo">
+    <form
+      class="todoForm"
+      [formGroup]="form"
+      (ngSubmit)="editSave(todo.id, todo.name)"
+    >
+      <mat-form-field hintLabel="最大文字数">
+        <mat-label>TODO追加</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="name"
+          autocomplete="off"
+          [(ngModel)]="todo.name"
+          #input
+        />
+        <!-- <textarea class="form-control" [(ngModel)]="todo.name" name="edit_comment"></textarea> -->
+        <!-- バリデーションエラー -->
+        <!-- <mat-error *ngIf="form.controls.name.hasError('maxlength')">
+          文字数オーバー
+        </mat-error>
+        <mat-error *ngIf="form.controls.name.hasError('required')">
+          入力してください
+        </mat-error>
+        <mat-hint align="end"> {{ input.value?.length || 0 }}/10 </mat-hint> -->
+      </mat-form-field>
+      <button
+        (click)="editSave(todo.id, todo.name)"
+        mat-icon-button
+        [disabled]="!form.valid"
+      >
+        <mat-icon>save</mat-icon>
+      </button>
+    </form>
+    <div>
+      <textarea (click)="remove(todo.id)">
+        {{ todo.name }}
+      </textarea>
+    </div>
+  </ng-container>
+
+  <!-- 表示モードの場合 -->
+  <ng-template #showTodo>
+    <div>
+      {{ todo.name }}
+      <button (click)="remove(todo.id)" mat-icon-button>
+        <mat-icon>clear</mat-icon>
+      </button>
+      <button (click)="edit(todo.id)" mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+  </ng-template>
 </ng-container>
